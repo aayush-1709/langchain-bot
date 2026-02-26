@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Research Assistant</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; display: flex; height: 100vh; }
+        .container { display: flex; width: 100%; }
+        .sidebar-input {width: 100%; padding: 8px; box-sizing: border-box; margin-bottom: 10px;}
+        .sidebar { width: 300px; background-color: #2c3e50; color: white; padding: 20px; display: flex; flex-direction: column; }
+        .main-content { flex: 1; display: flex; flex-direction: column; background-color: white; }
+        .chat-container { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .input-area { padding: 20px; border-top: 1px solid #ddd; display: flex; gap: 10px; }
+        input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px 20px; background-color: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #2980b9; }
+        .message { padding: 10px; border-radius: 8px; max-width: 80%; }
+        .user-message { align-self: flex-end; background-color: #3498db; color: white; }
+        .bot-message { align-self: flex-start; background-color: #ecf0f1; color: #2c3e50; }
+        .upload-section { margin-bottom: 20px; }
+        .upload-section h3 { margin-top: 0; }
+        .paper-list { margin-top: 20px; overflow-y: auto; max-height: 250px; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="upload-section">
+                <h3>Upload Research</h3>
+                <input type="file" id="pdfUpload" accept="application/pdf" style="margin-bottom: 10px; width: 100%;">
+                <button onclick="uploadPDF()">Upload PDF</button>
+                <hr style="margin: 20px 0;">
+                <input type="text" id="urlIngest" placeholder="Enter URL..." class="sidebar-input" style="margin-bottom: 10px; width: 100%;">
+                <button onclick="ingestURL()">Ingest URL</button>
+            </div>
+            <div class="paper-list" id="paperList">
+                <h3>Papers</h3>
+                <!-- Paper IDs will be listed here -->
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="chat-container" id="chatContainer">
+                <div class="message bot-message">Hello! Upload a research paper or provide a URL to start chatting.</div>
+            </div>
+            <div class="input-area">
+                <input type="text" id="chatInput" placeholder="Ask a question about your research...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000/api';
+
+        document.getElementById("chatInput").addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+                sendMessage();
+            }
+        });
+
+        async function loadPapers() {
+            const res = await fetch(`${API_URL}/list-papers`);
+            const papers = await res.json();
+
+            papers.forEach(p => addPaper(p.id, p.name));
+        }
+
+        window.onload = loadPapers;
+
+        async function uploadPDF() {
+            const fileInput = document.getElementById('pdfUpload');
+            if (fileInput.files.length === 0) return alert('Please select a file');
+            
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            const response = await fetch(`${API_URL}/upload-pdf`, {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            addPaper(data.paper_id, fileInput.files[0].name);
+            alert('PDF uploaded successfully!');
+        }
+
+        async function ingestURL() {
+            const urlInput = document.getElementById('urlIngest');
+            if (!urlInput.value) return alert('Please enter a URL');
+
+            const response = await fetch(`${API_URL}/ingest-url`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url: urlInput.value })
+            });
+            const data = await response.json();
+            addPaper(data.paper_id, urlInput.value);
+            alert('URL content ingested!');
+        }
+
+
+        function addPaper(id, name) {
+            const list = document.getElementById('paperList');
+
+            const div = document.createElement('div');
+            div.style.marginBottom = '8px';
+            div.innerHTML = `
+                📄<strong>${name}</strong>
+                <br>
+                <button onclick="viewSummary('${id}')" style="margin-top:4px;font-size:11px;">View Summary</button>
+                <hr>
+            `;
+
+            list.appendChild(div);
+        }
+        
+        async function viewSummary(id) {
+            appendMessage('bot', '⏳ Generating summary... please wait.');
+
+            const interval = setInterval(async () => {
+                const res = await fetch(`${API_URL}/paper-summary/${id}`);
+
+                if (res.status === 200) {
+                    clearInterval(interval);
+                    const data = await res.json();
+
+                    appendMessage(
+                        'bot',
+                        `📄 Summary:\n\n${JSON.stringify(data, null, 2)}`
+                    );
+        }
+    }, 3000);
+}
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const question = input.value;
+            if (!question) return;
+
+            appendMessage('user', question);
+            input.value = '';
+
+            const response = await fetch(`${API_URL}/chat`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question: question })
+            });
+            const data = await response.json();
+            appendMessage('bot', data.answer);
+        }
+
+        function appendMessage(sender, text) {
+            const container = document.getElementById('chatContainer');
+            const div = document.createElement('div');
+            div.className = `message ${sender}-message`;
+            div.innerText = text;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+    </script>
+</body>
+</html>

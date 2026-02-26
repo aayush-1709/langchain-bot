@@ -1,0 +1,43 @@
+{
+    "Summary": "Aayush Sinha is a B.Tech CSE with AIML student (Batch 2026) with a strong portfolio in GenAI, Machine Learning, and full-stack development. His experience includes internships at Prodigal AI and IBM, where he contributed to significant improvements in system efficiency and user experience. He has developed innovative projects such as a GenAI + Vision system for plant disease detection, a CNN-based model for autonomous vehicle traffic prediction, an AI shopping agent, and a RAG-based knowledge assistant, demonstrating expertise in deep learning, natural language processing, and scalable system design.",
+    "Key contributions": [
+        "Built a GenAI knowledge-retrieval system using Gemini API, semantic search, and embeddings, cutting query time by 50%.",
+        "Automated business insights using a modular Telegram bot, reducing manual reporting by 80%.",
+        "Developed a full-stack GenAI + Vision system for plant disease detection (38 classes) with 98%+ accuracy on 70k+ images, integrating Gemini for diagnosis reports and an LLM-grounded reasoning layer for action-oriented recommendations.",
+        "Created a CNN-based machine learning model for autonomous vehicles, achieving 95% accuracy in traffic rule prediction from 40,000+ traffic board images and optimizing inference speed by 30%.",
+        "Currently building an AI Shopping Agent to autonomously complete checkout flows using LLM reasoning + API actions.",
+        "Developed a RAG-based Knowledge Assistant supporting 3+ document formats and handling 1,000+ document chunks, reducing query response time by 40% through efficient similarity search using LlamaIndex + ChromaDB.",
+        "Fixed 15+ UI bugs weekly and boosted overall customer satisfaction as a Frontend Engineering Intern at IBM.",
+        "Optimized API data handling, reducing page load times by ~30% and improving code maintainability at IBM."
+    ],
+    "Datasets used": [
+        "70k+ images (for AI Crop Doctor)",
+        "40,000+ traffic board images (for Drive-Detect)",
+        "1,000+ document chunks (for Knowledge Assistant)"
+    ],
+    "Methodology": "The approach involves a combination of GenAI, deep learning, and full-stack development. Key methodologies include: \n- **GenAI & NLP:** Utilizing Gemini API, semantic search, embeddings, LLM reasoning, RAG (Retrieval Augmented Generation) with LlamaIndex and ChromaDB for vector storage and efficient similarity search.\n- **Machine Learning & Deep Learning:** Employing CNNs (Convolutional Neural Networks) with frameworks like Tensorflow, Keras, Pytorch, and computer vision libraries like OpenCV.\n- **Backend Development:** Using Flask, FastAPI, Uvicorn, Springboot, Java, PostgreSQL, and Firebase for scalable and real-time applications.\n- **Frontend Development:** Building user interfaces with HTML, JS, CSS, React, Next.js, Streamlit, and CLI.\n- **Agentic AI:** Designing systems with LLM reasoning combined with API actions for autonomous task completion.\n- **Deployment & Tools:** Leveraging GitHub, JIRA, Postman, Vercel, and Render for version control, project management, and deployment.",
+    "Results": [
+        "50% reduction in query time for GenAI knowledge-retrieval system.",
+        "80% reduction in manual reporting through automated Telegram bot.",
+        "98%+ accuracy for plant disease detection on 70k+ images with real-time prediction (<5s).",
+        "Improved farmer decision accuracy in field testing with a custom contextual Chatbot.",
+        "95% accuracy in traffic rule prediction from 40,000+ traffic board images.",
+        "30% optimization in model inference speed for autonomous vehicle model.",
+        "Fixed 15+ UI bugs weekly and boosted customer satisfaction at IBM.",
+        "~30% reduction in page load times and improved code maintainability at IBM.",
+        "40% reduction in query response time for RAG-based Knowledge Assistant with sub-second latency for most queries."
+    ],
+    "Limitations": "The provided text is a resume/portfolio summary, which typically highlights achievements and capabilities rather than explicitly stating limitations of the projects or the work performed. Therefore, no specific limitations are mentioned.",
+    "Future work": [
+        "For the Aycart (E-commerce Platform with AI Agent), future autonomous features include smart recommendations, price optimization, and conversational shopping.",
+        "General focus on developing scalable AI solutions and further advancements in Agentic AI."
+    ],
+    "Implementation ideas": [
+        "**GenAI Knowledge Retrieval:** Build scalable backend modules for traceable, verifiable document-grounded AI answers using Gemini API, semantic search, and embeddings.",
+        "**AI Crop Doctor:** Integrate GenAI (Gemini) with computer vision (CNN) in a full-stack application (Flask, Firebase) to provide real-time plant disease diagnosis, detailed reports, and action-oriented recommendations via an LLM-grounded reasoning layer.",
+        "**Drive-Detect:** Deploy CNN-based models (PyTorch, OpenCV) via Flask/FastAPI for edge-device integration and real-time traffic sign recognition in autonomous driving scenarios.",
+        "**Aycart (AI Shopping Agent):** Develop a robust frontend (React/Next.js) and backend (Springboot/Java) architecture that supports AI-driven cart actions, enabling LLM reasoning to autonomously complete checkout flows and facilitate future smart features.",
+        "**Knowledge Assistant:** Implement a RAG system using LlamaIndex and ChromaDB to generate and store vector embeddings, providing efficient natural-language Q&A across diverse document formats through user-friendly interfaces (CLI/Streamlit).",
+        "**Business Automation:** Utilize modular Telegram bots to automate routine business tasks and generate insights, significantly reducing manual reporting efforts."
+    ]
+}
