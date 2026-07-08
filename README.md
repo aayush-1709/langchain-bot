@@ -1,6 +1,6 @@
 # AI Research Assistant Agent
 
-A production-ready AI Research Assistant that allows you to upload PDFs or provide URLs, index them into a FAISS vector database, and chat with the content using Gemini-1.5-Flash.
+A production-ready AI Research Assistant that allows you to upload PDFs or provide URLs, index them into a FAISS vector database, and chat with the content using Gemini-2.5-Flash.
 
 ## Architecture
 - **Backend**: FastAPI
